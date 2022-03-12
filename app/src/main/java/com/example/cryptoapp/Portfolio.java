@@ -231,6 +231,7 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
                         JSONObject dataObj = dataArray.getJSONObject(i);
                         String name = dataObj.getString("name");
 
+
                     }
 
                 } catch (JSONException e) {

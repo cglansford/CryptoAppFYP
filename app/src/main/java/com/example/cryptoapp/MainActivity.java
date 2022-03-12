@@ -53,6 +53,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
     private ImageButton starBTN;
     private ProgressBar loadingPB;
     public ArrayList<CurrencyRVModel> currencyRVModelArrayList;
+    public ArrayList<String> portfolioListCurrencies;
     public CurrencyRVAdapter currencyRVAdapter;
 
 
@@ -77,24 +80,25 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
 
 
         setContentView(R.layout.activity_main);
-
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
 
         searchEdit = findViewById(R.id.idEditSearch);
         currenciesRV = findViewById(R.id.idRVCurrencies);
         loadingPB = findViewById(R.id.idPBLoading);
         starBTN = findViewById(R.id.star);
         currencyRVModelArrayList = new ArrayList<>();
-        currencyRVAdapter = new CurrencyRVAdapter(currencyRVModelArrayList, MainActivity.this, this, this);
+        portfolioListCurrencies = new ArrayList<>();
+        currencyRVAdapter = new CurrencyRVAdapter(currencyRVModelArrayList, portfolioListCurrencies, MainActivity.this, this, this);
         currenciesRV.setLayoutManager(new LinearLayoutManager(this));
         currenciesRV.setAdapter(currencyRVAdapter);
 
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(currenciesRV);
-
+        getPortfolio();
         getCurrencyData();
 
 
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
         searchEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -243,6 +247,46 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
 
                 }
             });
+
+
+    }
+
+    //Get portfolio info from Firebase
+    public void getPortfolio(){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("users").document(mUser.getUid()).collection("crypto").document("favlist");
+
+        docRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()){
+                            //loads data to json array to be used in activity
+                            try {
+                                //checks to see if there is any entries in the users portfolio
+                                if(documentSnapshot.get("cryptos") != null) {
+                                    JSONArray json = new JSONArray(((List<?>) documentSnapshot.get("cryptos")).toArray());
+                                    for (int i = 0; i < json.length(); i++) {
+                                        String name = json.getJSONObject(i).getString("name");
+                                        portfolioListCurrencies.add(name);
+                                        currencyRVAdapter.notifyDataSetChanged();
+
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
 
 
     }

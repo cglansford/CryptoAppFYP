@@ -22,14 +22,16 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
     //Creating the adapter for the recycler view to present the list data of the api data
 
     private ArrayList<CurrencyRVModel> currencyRVModelArrayList;
+    private ArrayList<String> portfolioListCurrencies;
      private Context context;
      private Activity activity;
      //To convert prices into 6 decimals as some coins are small price, large mcap
      private static DecimalFormat df6 = new DecimalFormat("#.######");
     private OnEditListener mOnEditListener;
 
-    public CurrencyRVAdapter(ArrayList<CurrencyRVModel> currencyRVModelArrayList, Activity activity, Context context, OnEditListener onEditListener) {
+    public CurrencyRVAdapter(ArrayList<CurrencyRVModel> currencyRVModelArrayList, ArrayList<String> portfolioListCurrencies, Activity activity, Context context, OnEditListener onEditListener) {
         this.currencyRVModelArrayList = currencyRVModelArrayList;
+        this.portfolioListCurrencies = portfolioListCurrencies;
         this.activity = activity;
         this.context = context;
         this.mOnEditListener = onEditListener;
@@ -54,6 +56,12 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
         holder.tickerTV.setText(currencyRVModel.getTicker());
         //Making sure price is in correct format
         holder.rateTV.setText("$ " + df6.format(currencyRVModel.getPrice()));
+
+        for(int i =0; i<portfolioListCurrencies.size();i++){
+            if(currencyRVModel.getName().equalsIgnoreCase(portfolioListCurrencies.get(i))){
+                holder.star.setImageResource(R.drawable.ic_full_star);
+            }
+        }
     }
 
     @Override
