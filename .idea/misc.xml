@@ -7,7 +7,7 @@
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/drawable/ic_bitcoin_btc_logo.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/drawable/ic_price_chart.xml" value="0.2203125" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/drawable/ic_star_outline.xml" value="0.254" />
-        <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/activity_coin_info.xml" value="0.25" />
+        <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/activity_coin_info.xml" value="0.33" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/activity_favourites.xml" value="0.1947463768115942" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/activity_home_page.xml" value="0.25" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/activity_login.xml" value="0.1" />
@@ -22,7 +22,7 @@
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/activity_side_nav.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/app_bar_side_nav.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/content_side_nav.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/currency_rv_item.xml" value="0.2559852670349908" />
+        <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/currency_rv_item.xml" value="0.4407894736842105" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/dialog_spinner.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/fragment_gallery.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/fragment_home.xml" value="0.20416666666666666" />
@@ -30,7 +30,7 @@
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/nav_header_side_nav.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/news.xml" value="0.23743185947910359" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/news_rv_item.xml" value="0.22" />
-        <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/portfolio_rv_item.xml" value="0.1" />
+        <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/layout/portfolio_rv_item.xml" value="0.25" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/menu/activity_main_drawer.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/menu/activity_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ciara/AndroidStudioProjects/CryptoApp/app/src/main/res/menu/options_menu.xml" value="0.36666666666666664" />

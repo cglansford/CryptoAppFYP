@@ -37,7 +37,8 @@
             android:exported="true"
             android:label="Where To Spend Your Crypto"></activity>
 
-        <activity android:name=".News" />
+        <activity android:name=".News"
+            android:exported="true"/>
 
         <activity android:exported="true"
             android:name="MainActivity"
@@ -50,6 +51,7 @@
         </activity>
 
         <activity android:name=".Register"
+            android:exported="true"
             android:label=""/>
         <activity
             android:name=".Login"

@@ -7,9 +7,13 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Home extends AppCompatActivity {
 
     ImageView navSearch, navFavList, navNews, navPortfolio;
+    FloatingActionButton logOut;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +23,7 @@ public class Home extends AppCompatActivity {
         navFavList = findViewById(R.id.navFavList);
         navNews = findViewById(R.id.navNews);
         navPortfolio = findViewById(R.id.navPortfolio);
+        logOut = findViewById(R.id.logOutButton);
 
         navSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +50,15 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), Portfolio.class));
+            }
+        });
+
+        logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                finish();
             }
         });
     }

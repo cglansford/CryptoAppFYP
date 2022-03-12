@@ -158,8 +158,27 @@ public class PortfolioEditor extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(PortfolioEditor.this, "DocumentSnapshot not written!", Toast.LENGTH_SHORT).show();
+                                //Creates list if first time
                                 docRef.set(pv);
+
+                                //Then adds entry to the created list
+                                docRef.update("list", FieldValue.arrayUnion(pv))
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+
+                                                Intent intent = new Intent(PortfolioEditor.this, Portfolio.class);
+                                                startActivity(intent);
+
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+
+
+                                            }
+                                        });
 
                             }
                         });

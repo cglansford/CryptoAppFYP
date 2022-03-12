@@ -1,6 +1,7 @@
 package com.example.cryptoapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,14 +34,14 @@ public class CoinInfo extends AppCompatActivity {
     private TextView bigPrice, bigTKR, bigName, bigPriceChange;
     private TextView circSupply, totalSupply, mCap, totalMCap;
     private TextView day1Holder, day7Holder, day30Holder;
+    private String currencyName;
     private static DecimalFormat df6 = new DecimalFormat("###,###,###,###.######");
-    private static DecimalFormat df2 = new DecimalFormat("###,###,###,###.##");
+    private static DecimalFormat df2 = new DecimalFormat("###,###,###,###.##; -###,###,###,###.##");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_info);
-
         bigPrice = findViewById(R.id.idBigPrice);
         bigTKR = findViewById(R.id.idBigTKR);
         bigName = findViewById(R.id.idBigName);
@@ -53,6 +54,8 @@ public class CoinInfo extends AppCompatActivity {
         day7Holder= findViewById(R.id.day7Holder);
         day30Holder= findViewById(R.id.day30Holder);
 
+        Intent incomingIntent = getIntent();
+        currencyName = (String) incomingIntent.getSerializableExtra("currencyName");
         getCurrencyData();
     }
 
@@ -70,7 +73,7 @@ public class CoinInfo extends AppCompatActivity {
                     //For loop gets the JSON object isolated so that can extract the value for ticket, name, price
                     for(int i = 0; i< dataArray.length(); i++) {
                         JSONObject dataObj = dataArray.getJSONObject(i);
-                        if(dataObj.getString("name").equalsIgnoreCase("bitcoin")) {
+                        if(dataObj.getString("name").equalsIgnoreCase(currencyName)) {
                             bigName.setText(dataObj.getString("name"));
                             bigTKR.setText(dataObj.getString("symbol"));
                             circSupply.setText(dataObj.getString("circulating_supply"));
@@ -83,10 +86,24 @@ public class CoinInfo extends AppCompatActivity {
                             totalMCap.setText("$ " + df2.format(USD.getDouble("fully_diluted_market_cap")));
 
 
-                            bigPriceChange.setText(USD.getDouble("percent_change_24h") + "%");
-                            day1Holder.setText(USD.getDouble("percent_change_24h") + "%");
-                            day7Holder.setText(USD.getDouble("percent_change_7d") + "%");
-                            day30Holder.setText(USD.getDouble("percent_change_30d") + "%");
+                            bigPriceChange.setText(df2.format(USD.getDouble("percent_change_24h")) + "%");
+                            day1Holder.setText(df2.format(USD.getDouble("percent_change_24h") )+ "%");
+                            if(USD.getDouble("percent_change_24h")<0){
+                                bigPriceChange.setTextColor(Color.RED);
+                                day1Holder.setTextColor(Color.RED);
+                            }
+
+
+                            day7Holder.setText(df2.format(USD.getDouble("percent_change_7d")) + "%");
+                            if(USD.getDouble("percent_change_7d")<0){
+                                day7Holder.setTextColor(Color.RED);
+                            }
+
+                            day30Holder.setText(df2.format(USD.getDouble("percent_change_30d")) + "%");
+                            if(USD.getDouble("percent_change_30d")<0){
+                                day30Holder.setTextColor(Color.RED);
+                            }
+
 
                         }
 

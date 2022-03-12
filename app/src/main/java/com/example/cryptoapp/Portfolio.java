@@ -188,28 +188,6 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
-
-
-                         /*   Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    for (int i = 0; i<portfolioRVModelArrayList.size();i++){
-                                       // Toast.makeText(Portfolio.this, "test" + currencyRVModelArrayList.size(), Toast.LENGTH_SHORT).show();
-                                        for(int z =0; i<currencyRVModelArrayList.size(); i++){
-
-                                            if (portfolioRVModelArrayList.get(i).getName().equalsIgnoreCase(currencyRVModelArrayList.get(z).getName())) {
-
-                                            }
-                                        }
-                                    }
-                                }
-                            }, 10000);
-*/
-
-
-
                             //Sort list in descending order
                             Collections.sort(portfolioRVModelArrayList, new Comparator<PortfolioRVModel>(){
                                 @Override
@@ -222,7 +200,8 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
 
 
                         }else{
-                            Toast.makeText(Portfolio.this, "No existing document", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), PortfolioEditor.class);
+                            startActivity(intent);
                         }
                     }
 

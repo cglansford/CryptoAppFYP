@@ -2,6 +2,7 @@ package com.example.cryptoapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,15 +73,23 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
             star = itemView.findViewById(R.id.star);
             this.onEditListener = onEditListener;
             star.setOnClickListener(this);
-
-
-
-
         }
+
+
+
+
         @Override
         public void onClick(View v) {
             onEditListener.onEditClick(getAdapterPosition());
-            star.setImageResource(R.drawable.ic_full_star);
+            if(String.valueOf(star.getTag()).equalsIgnoreCase("starOutline")){
+                star.setImageResource(R.drawable.ic_full_star);
+                star.setTag("starFull");
+            }else{
+                star.setImageResource(R.drawable.ic_star_outline);
+                star.setTag("starOutline");
+            }
+
+
         }
 
 

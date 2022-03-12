@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
 
     private EditText searchEdit;
     private RecyclerView currenciesRV;
+    private ImageButton starBTN;
     private ProgressBar loadingPB;
     public ArrayList<CurrencyRVModel> currencyRVModelArrayList;
     public CurrencyRVAdapter currencyRVAdapter;
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
         searchEdit = findViewById(R.id.idEditSearch);
         currenciesRV = findViewById(R.id.idRVCurrencies);
         loadingPB = findViewById(R.id.idPBLoading);
+        starBTN = findViewById(R.id.star);
         currencyRVModelArrayList = new ArrayList<>();
         currencyRVAdapter = new CurrencyRVAdapter(currencyRVModelArrayList, MainActivity.this, this, this);
         currenciesRV.setLayoutManager(new LinearLayoutManager(this));
@@ -111,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
                 filterCurrencies(s.toString());
             }
         });
+
+
     }
 
     ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -124,39 +129,9 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
         @Override
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int pos = viewHolder.getAdapterPosition();
-
-
-            CurrencyRVModel favTemp = currencyRVAdapter.getList().get(pos);
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-            DocumentReference docRef = db.collection("users").document(mUser.getUid()).collection("crypto").document("favlist");
-
-            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-
-                    docRef.update("cryptos", FieldValue.arrayUnion(favTemp))
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-
-                                    Toast.makeText(MainActivity.this,"DocumentSnapshot successfully written!", Toast.LENGTH_SHORT).show();
-                                    currencyRVAdapter.notifyItemChanged(pos);
-
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(MainActivity.this,"DocumentSnapshot not written!", Toast.LENGTH_SHORT).show();
-                                        docRef.set(favTemp);
-                                        currencyRVAdapter.notifyItemChanged(pos);
-                                }
-                            });
-
-               }
-            });
+            Intent intent = new Intent(getApplicationContext(), CoinInfo.class);
+            intent.putExtra("currencyName", currencyRVModelArrayList.get(pos).getName());
+            startActivity(intent);
             }
     };
 
@@ -230,31 +205,45 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
 
         CurrencyRVModel favTemp = currencyRVAdapter.getList().get(position);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
         DocumentReference docRef = db.collection("users").document(mUser.getUid()).collection("crypto").document("favlist");
 
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                docRef.update("cryptos", FieldValue.arrayUnion(favTemp))
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                docRef.set(favTemp);
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
 
-                            }
-                        });
+                    docRef.update("cryptos", FieldValue.arrayUnion(favTemp))
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
 
-            }
-        });
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    docRef.set(favTemp);
+                                    docRef.update("cryptos", FieldValue.arrayUnion(favTemp))
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+
+                                                }
+                                            });
+
+                                }
+                            });
+
+                }
+            });
+
 
     }
 
