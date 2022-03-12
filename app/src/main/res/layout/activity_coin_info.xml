@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CoinInfo">
+
+    <TextView
+        android:id="@+id/marketCap"
+        android:layout_width="124dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="24dp"
+        android:text="Market Cap"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/marketCapHolder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/marketCapHolder"
+        android:layout_width="153dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="24dp"
+
+        android:layout_marginBottom="224dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/dilutedVal"
+        android:layout_width="162dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="80dp"
+        android:text="Full Diluted Valuation"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/dilutedValHolder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/marketCap"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.995" />
+
+    <TextView
+        android:id="@+id/dilutedValHolder"
+        android:layout_width="144dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="212dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.944"
+        app:layout_constraintStart_toEndOf="@+id/marketCapHolder" />
+
+    <TextView
+        android:id="@+id/totalSupplyHolder"
+        android:layout_width="105dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="72dp"
+
+        android:layout_marginBottom="284dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/circulatingSupplyHolder" />
+
+    <TextView
+        android:id="@+id/circulatingSupply"
+        android:layout_width="126dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="24dp"
+        android:text="Circulating Supply"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/circulatingSupplyHolder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/circulatingSupplyHolder"
+        android:layout_width="126dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="24dp"
+
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/marketCap"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/totalSupply"
+        android:layout_width="105dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="80dp"
+        android:text="Total Supply"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/totalSupplyHolder"
+        app:layout_constraintStart_toEndOf="@+id/circulatingSupply"
+        app:layout_constraintTop_toBottomOf="@+id/idBigPriceChange"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/idBigName"
+        android:layout_width="325dp"
+        android:layout_height="118dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:textSize="75dp"
+
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/idBigPriceChange"
+        android:layout_width="94dp"
+        android:layout_height="57dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="72dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idBigName"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <TextView
+        android:id="@+id/idBigTKR"
+        android:layout_width="81dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="76dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/idBigName"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/idBigPrice"
+        android:layout_width="193dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/circulatingSupply"
+        app:layout_constraintEnd_toStartOf="@+id/idBigPriceChange"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idBigName"
+        app:layout_constraintVertical_bias="0.202" />
+
+    <TextView
+        android:id="@+id/day1"
+        android:layout_width="78dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="4dp"
+        android:text="1 Day"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/day1Holder"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/day7"
+        android:layout_width="90dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="4dp"
+        android:text="7 Day"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/day7Holder"
+        app:layout_constraintStart_toEndOf="@+id/day1" />
+
+    <TextView
+        android:id="@+id/day1Holder"
+        android:layout_width="98dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="92dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/day7Holder"
+        android:layout_width="97dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="88dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/day1Holder" />
+
+    <TextView
+        android:id="@+id/day30"
+        android:layout_width="102dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="8dp"
+        android:text="30 Day"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/day30Holder"
+        app:layout_constraintStart_toEndOf="@+id/day7" />
+
+    <TextView
+        android:id="@+id/day30Holder"
+        android:layout_width="110dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="84dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/day7Holder" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

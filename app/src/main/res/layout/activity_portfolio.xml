@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/"
+    xmlns:app2="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+
+        tools:context=".Portfolio">
+
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/portfolioChart"
+            android:layout_width="match_parent"
+            android:layout_height="514dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+
+        <TextView
+            android:id="@+id/totalName"
+            android:layout_width="273dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/portfolioChart"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="-2dp"
+            android:layout_marginRight="57dp"
+            android:layout_toLeftOf="@id/totalHolding"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalHolding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/portfolioChart"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="37dp"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/idRVCurrencies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/totalHolding"
+                android:layout_marginTop="-1dp"
+                />
+
+
+
+    </RelativeLayout>
+    </ScrollView>
+
+
+
+
+
+
+
+
+

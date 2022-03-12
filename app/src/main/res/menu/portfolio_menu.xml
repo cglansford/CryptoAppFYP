@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/editButton"
+        android:title="Edit Portfolio"
+        android:icon="@drawable/ic_baseline_edit_24"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/backButton"
+        android:title="Go Back"
+        android:icon="@drawable/ic_back"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/portfolio"
+        android:title="Portfolio"
+
+        />
+
+    <item
+        android:id="@+id/news"
+        android:title="News"
+
+        />
+
+    <item
+        android:id="@+id/maps"
+        android:title="Where To Spend Crypto"
+
+        />
+
+    <item
+        android:id="@+id/fav"
+        android:title="Favourites list"
+
+        />
+
+    <item
+        android:id="@+id/logout"
+        android:title="LogOut"
+
+        />
+
+</menu>

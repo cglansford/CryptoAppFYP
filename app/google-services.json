@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "657130981687",
+    "project_id": "cryptoapp-ac648",
+    "storage_bucket": "cryptoapp-ac648.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657130981687:android:9fcb5a176fd46d960032b2",
+        "android_client_info": {
+          "package_name": "com.example.cryptoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657130981687-m0mnjmi6hqp8ijaj4pf2vv9h4uk9gc74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6wCPnRVqRjxWbUZT62XMEP1KtkMssKec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "657130981687-m0mnjmi6hqp8ijaj4pf2vv9h4uk9gc74.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
