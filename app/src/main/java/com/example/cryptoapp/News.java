@@ -6,7 +6,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,38 +36,89 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class News extends AppCompatActivity {
+public class News extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private RecyclerView newsRV;
-    private ProgressBar loadingPB;
+
     private ArrayList<NewsRVModel>newsRVModelArrayList;
     private NewsRVAdapter newsRVAdapter;
+    private Spinner dropdownSpinner;
+    private static final String[] newsSources = {"All","yahoo", "coindesk", "economictimes", "abcnews",
+                                                    "cryptonews",  "cointelegraph"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news);
-        loadingPB = findViewById(R.id.idPBLoading);
+
         newsRV =  findViewById(R.id.idRVNewsItem);
+        dropdownSpinner = findViewById(R.id.sourceSpinner);
+
+
+        getNewsData();
+
         newsRVModelArrayList = new ArrayList<>();
         newsRVAdapter = new NewsRVAdapter(newsRVModelArrayList, this);
         newsRV.setLayoutManager(new LinearLayoutManager(this));
         newsRV.setAdapter(newsRVAdapter);
-        getNewsData();
+
+
+
+        ArrayAdapter<String>dropdownAdapter = new ArrayAdapter<String>(News.this,
+                android.R.layout.simple_spinner_item, newsSources);
+        dropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropdownSpinner.setAdapter(dropdownAdapter);
+        dropdownSpinner.setSelection(0);
+        dropdownSpinner.setOnItemSelectedListener(this);
 
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id){
+        filterNewsSource((String) parent.getItemAtPosition(position));
+        Toast.makeText(News.this, "Test", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+        filterNewsSource("All");
+    }
+
+
+    //Create filter function to be able to search for a particular coin
+    private void filterNewsSource(String source){
+
+            ArrayList<NewsRVModel> filteredList = new ArrayList<>();
+            if(source.equals("All")) {
+
+                for (NewsRVModel item : newsRVModelArrayList) {
+
+                    filteredList.add(item);
+                }
+            }else{
+                for (NewsRVModel item : newsRVModelArrayList) {
+                    //If searched currency is in the list, adds to list
+                    if (item.getSourceName().toLowerCase().equals(source.toLowerCase())) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            //returns filtered list
+            newsRVAdapter.filterList(filteredList);
+        }
 
 
 
     //Loads news data and adds to array list of news stories to be displayed
     private void getNewsData(){
-        loadingPB.setVisibility(View.VISIBLE);
+
         String url ="https://crypto-news6.p.rapidapi.com/news";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                loadingPB.setVisibility(View.GONE);
+
                 //Extract data to List
                 try {
                     JSONArray dataArray =  new JSONArray(response);
@@ -88,7 +142,7 @@ public class News extends AppCompatActivity {
             //To handle possible errors
             @Override
             public void onErrorResponse(VolleyError error) {
-                loadingPB.setVisibility(View.GONE);
+
                 Toast.makeText(News.this, "Failed to get the data..", Toast.LENGTH_SHORT).show();
             }
         }){

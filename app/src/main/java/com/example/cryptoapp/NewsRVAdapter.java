@@ -23,6 +23,12 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
         this.context = context;
     }
 
+    //Updates the list once filtered
+    public void filterList(ArrayList<NewsRVModel> filteredList){
+        newsRVModelArrayList = filteredList;
+        notifyDataSetChanged();
+    }
+
 
     @NonNull
     @Override
