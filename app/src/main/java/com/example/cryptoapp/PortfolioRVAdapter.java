@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class PortfolioRVAdapter extends RecyclerView.Adapter<PortfolioRVAdapter.
     private Context context;
     private Activity activity;
     private OnEditListener mOnEditListener;
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
 
     public PortfolioRVAdapter(ArrayList<PortfolioRVModel> portfolioRVModelArrayList, Activity activity, Context context, OnEditListener onEditListener){
         this.portfolioRVModelArrayList = portfolioRVModelArrayList;
@@ -43,7 +45,7 @@ public class PortfolioRVAdapter extends RecyclerView.Adapter<PortfolioRVAdapter.
         PortfolioRVModel portfolioRVModel = portfolioRVModelArrayList.get(position);
         holder.name.setText(portfolioRVModel.getName());
         holder.amount.setText(String.valueOf(portfolioRVModel.getHoldingAmount()));
-
+        holder.total.setText("$ "+ String.valueOf(df2.format(portfolioRVModel.getDollarTotal())));
     }
 
     @Override

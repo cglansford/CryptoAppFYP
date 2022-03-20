@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -45,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,9 +57,11 @@ import java.util.Map;
 public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.OnEditListener {
     private PieChart pieChart;
     private RecyclerView currenciesRV;
+    private TextView totalValueHolding;
     public ArrayList<PortfolioRVModel> portfolioRVModelArrayList;
     public PortfolioRVAdapter portfolioRVAdapter;
     public ArrayList<CurrencyRVModel> currencyRVModelArrayList;
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
 
 
     FirebaseUser mUser;
@@ -71,11 +75,13 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_portfolio);
-
-
+        currencyRVModelArrayList= new ArrayList<>();
+        loadCoinList();
+        totalValueHolding = findViewById(R.id.totalHoldingValue);
         pieChart = findViewById(R.id.portfolioChart);
         currenciesRV = findViewById(R.id.idRVCurrencies);
         portfolioRVModelArrayList = new ArrayList<>();
+
         portfolioRVAdapter = new PortfolioRVAdapter(portfolioRVModelArrayList, Portfolio.this, this, this);
         currenciesRV.setLayoutManager(new LinearLayoutManager(this));
         currenciesRV.setAdapter(portfolioRVAdapter);
@@ -83,11 +89,30 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         docRef = db.collection("users").document(mUser.getUid()).collection("crypto").document("portfolioList");
-        getPortfolio();
-        setupPieChart();
+
+
+
+        Handler handler = new Handler();
+
+        //Delay to allow price list to load
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getPortfolio();
+            }
+        }, 500);
+
+        //Delay to allow portfolio data to load
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setupPieChart();
+
+            }
+        }, 500);
 
         //Set delay to allow arraylist for portfolio to be instantiated
-        Handler handler = new Handler();
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -97,20 +122,19 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
 
     }
 
-
-
     private void setupPieChart() {
         pieChart.setDrawHoleEnabled(true);
         pieChart.setUsePercentValues(true);
         pieChart.setEntryLabelTextSize(12);
         pieChart.setEntryLabelColor(Color.BLACK);
+        pieChart.setNoDataText("Loading Portfolio....");
+        pieChart.setNoDataTextColor(Color.BLACK);
         pieChart.setCenterText("Portfolio");
         pieChart.setCenterTextSize(40);
         pieChart.getDescription().setEnabled(false);
         pieChart.setExtraOffsets(0,0,0,0);
         pieChart.getLegend().setEnabled(false);
-        pieChart.setNoDataText("Loading Portfolio....");
-        pieChart.setNoDataTextColor(Color.BLACK);
+
 
     }
 
@@ -122,13 +146,13 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
 
         //Gets total holding amount for portfolio
         for(int i = 0; i<portfolioRVModelArrayList.size(); i++){
-            totalHolding = totalHolding + portfolioRVModelArrayList.get(i).getHoldingAmount();
+            totalHolding = totalHolding + portfolioRVModelArrayList.get(i).getDollarTotal();
 
         }
-
+        totalValueHolding.setText("$ " +String.valueOf(df2.format(totalHolding)));
         //Adds items to the pie chart, with their % of portfolio being their ratio of total to overall total
         for(int i = 0; i<portfolioRVModelArrayList.size(); i++){
-            float mfloat = (float) (portfolioRVModelArrayList.get(i).getHoldingAmount()/totalHolding);
+            float mfloat = (float) (portfolioRVModelArrayList.get(i).getDollarTotal()/totalHolding);
             entries.add(new PieEntry(mfloat, portfolioRVModelArrayList.get(i).getName()));
         }
 
@@ -176,6 +200,9 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
                                         String name = json.getJSONObject(i).getString("name");
                                         double holding = Double.parseDouble(json.getJSONObject(i).getString("holdingAmount"));
                                         portfolioRVModelArrayList.add(new PortfolioRVModel(name, holding));
+                                        //needs to set the holding value with new dollar amount every time activity is loaded
+                                        portfolioRVModelArrayList.get(portfolioRVModelArrayList.size()-1)
+                                                .setDollarTotal(searchCoinList(name)*holding);
                                     }
                                 }else{
                                     //sends use to the editor if they dont have any entries in their portfolio
@@ -192,7 +219,7 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
                             Collections.sort(portfolioRVModelArrayList, new Comparator<PortfolioRVModel>(){
                                 @Override
                                 public int compare(PortfolioRVModel p1, PortfolioRVModel p2){
-                                    return Integer.valueOf((int) p2.getHoldingAmount()).compareTo((int) p1.getHoldingAmount());
+                                    return Integer.valueOf((int) p2.getDollarTotal()).compareTo((int) p1.getDollarTotal());
                                 }
                             });
                             portfolioRVAdapter.notifyDataSetChanged();
@@ -216,6 +243,16 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
 
     }
 
+    public double searchCoinList(String name){
+
+        double searchedCoinPrice=0;
+        for(int i = 0; i<currencyRVModelArrayList.size(); i++){
+            if (currencyRVModelArrayList.get(i).getName().equals(name)) {
+                searchedCoinPrice = currencyRVModelArrayList.get(i).getPrice();
+            }
+        }
+        return searchedCoinPrice;
+    }
 
     public void loadCoinList() {
         String url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
@@ -230,7 +267,13 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
                     for (int i = 0; i < dataArray.length(); i++) {
                         JSONObject dataObj = dataArray.getJSONObject(i);
                         String name = dataObj.getString("name");
+                        String ticker = dataObj.getString("symbol");
+                        //As price value is a value inside an object inside an object, need to iterate through data
+                        JSONObject quote = dataObj.getJSONObject("quote");
+                        JSONObject USD = quote.getJSONObject("USD");
+                        double price = USD.getDouble("price");
 
+                        currencyRVModelArrayList.add(new CurrencyRVModel(name,ticker, price));
 
                     }
 

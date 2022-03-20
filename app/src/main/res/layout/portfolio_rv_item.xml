@@ -26,8 +26,8 @@
             android:layout_toStartOf="@+id/imageButton"
             android:padding="3dp"
             android:text="Name"
-            android:textSize="15dp"
             android:textColor="@color/white"
+            android:textSize="18dp"
             android:textStyle="bold" />
 
         <TextView
@@ -65,7 +65,7 @@
             android:layout_toStartOf="@+id/imageButton"
             android:text="TextView"
             android:textColor="@color/white"
-            android:textSize="15dp" />
+            android:textSize="16dp" />
 
     </RelativeLayout>
 
