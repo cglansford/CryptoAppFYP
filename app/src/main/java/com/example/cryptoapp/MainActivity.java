@@ -321,6 +321,10 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
             Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);
         }
+        else if(id == R.id.forum){
+            Intent intent = new Intent(this, Forum.class);
+            startActivity(intent);
+        }
 
         else if(id == R.id.fav){
             Intent intent = new Intent(this, FavList.class);

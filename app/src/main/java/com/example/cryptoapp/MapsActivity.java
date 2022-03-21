@@ -200,8 +200,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         else if (id==R.id.news){
             Intent intent = new Intent(this, News.class);
             startActivity(intent);
+        }
 
-
+        else if(id==R.id.forum){
+            Intent intent = new Intent(this, Forum.class);
+            startActivity(intent);
         }
 
         else if(id == R.id.maps){

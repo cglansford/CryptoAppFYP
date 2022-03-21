@@ -18,9 +18,9 @@
         />
 
     <item
-        android:id="@+id/maps"
-        android:title="Where To Spend Crypto"
-        android:icon="@drawable/ic_map"
+        android:id="@+id/forum"
+        android:title="Forum"
+        android:icon="@drawable/ic_baseline_forum_24"
         app:showAsAction="always"
         />
 
@@ -30,6 +30,15 @@
         android:icon="@drawable/ic_fav"
         app:showAsAction="always"
         />
+
+    <item
+        android:id="@+id/maps"
+        android:title="Where To Spend Crypto"
+        android:icon="@drawable/ic_map"
+        app:showAsAction="always"
+        />
+
+
 
     <item
         android:id="@+id/logout"

@@ -190,6 +190,11 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
 
         }
 
+        else if(id==R.id.forum){
+            Intent intent = new Intent(this, Forum.class);
+            startActivity(intent);
+        }
+
         else if(id == R.id.maps){
             Intent intent = new Intent(this, MapsActivity.class);
             startActivity(intent);

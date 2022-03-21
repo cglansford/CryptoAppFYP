@@ -62,7 +62,7 @@ public class PortfolioEditItem extends AppCompatActivity {
                 docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-
+                        mHolding.setDollarTotal(0);
                         docRef.update("list", FieldValue.arrayRemove(mHolding))
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -89,7 +89,7 @@ public class PortfolioEditItem extends AppCompatActivity {
                 docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-
+                        mHolding.setDollarTotal(0);
                         docRef.update("list", FieldValue.arrayRemove(mHolding))
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

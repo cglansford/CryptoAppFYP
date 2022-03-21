@@ -48,6 +48,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.3'
     implementation 'com.google.firebase:firebase-core:20.0.2'
     implementation files('libs/MPAndroidChart-v3.0.1.jar')
+  
 
     implementation 'com.google.firebase:firebase-firestore:24.0.0'
     testImplementation 'junit:junit:4.+'

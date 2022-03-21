@@ -85,12 +85,25 @@
             android:exported="true"
             >
 
+        </activity>
+
+        <activity android:name=".Forum"
+            android:exported="true"
+            android:label="Forum"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <activity android:name=".AddPost"
+            android:exported="true"
+            android:label="Add Post"
+            >
+
+        </activity>
+    </application>
 </manifest>
