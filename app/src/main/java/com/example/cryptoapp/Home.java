@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Home extends AppCompatActivity {
 
-    ImageView navSearch, navFavList, navNews, navPortfolio;
+    ImageView navSearch, navForum, navNews, navPortfolio;
     FloatingActionButton logOut;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home_page);
 
         navSearch = findViewById(R.id.navSearch);
-        navFavList = findViewById(R.id.navFavList);
+        navForum = findViewById(R.id.navForum);
         navNews = findViewById(R.id.navNews);
         navPortfolio = findViewById(R.id.navPortfolio);
         logOut = findViewById(R.id.logOutButton);
@@ -32,10 +32,10 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        navFavList.setOnClickListener(new View.OnClickListener() {
+        navForum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), FavList.class));
+                startActivity(new Intent(getApplicationContext(), Forum.class));
             }
         });
 

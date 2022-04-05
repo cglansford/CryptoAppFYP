@@ -28,7 +28,7 @@
             android:padding="3dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -42,8 +42,8 @@
             android:layout_marginBottom="2dp"
             android:hint="Description"
             android:padding="3dp"
-            android:textColorHint="@color/white"
             android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="15dp" />
 
         <TextView

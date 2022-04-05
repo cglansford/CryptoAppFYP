@@ -13,13 +13,14 @@
         android:id="@+id/imageView"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="84dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.134"
         tools:ignore="ImageContrastCheck"
-        tools:srcCompat="@drawable/ic_bitcoin_btc_logo" />
+        android:background="@drawable/ic_bitcoin_btc_logo" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/logOutButton"
@@ -61,6 +62,7 @@
                 app:cardCornerRadius="6dp"
                 app:cardMaxElevation="6dp">
 
+
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,8 +72,17 @@
                         android:id="@+id/navSearch"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ic_baseline_search_24" />
+                        android:src="@drawable/ic_baseline_search_24"
+                        android:layout_centerHorizontal="true"/>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/navSearch"
+                        android:text="Crypto Top 100"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="15dp"/>
                 </RelativeLayout>
 
             </androidx.cardview.widget.CardView>
@@ -94,7 +105,17 @@
                         android:id="@+id/navPortfolio"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ic_baseline_pie_chart_24" />
+                        android:src="@drawable/ic_baseline_pie_chart_24"
+                        android:layout_centerHorizontal="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/navPortfolio"
+                        android:text="My Portfolio"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="15dp"/>
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
@@ -122,11 +143,21 @@
                     android:layout_gravity="center">
 
                     <ImageView
-                        android:id="@+id/navFavList"
+                        android:id="@+id/navForum"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ic_fav" />
+                        android:src="@drawable/ic_baseline_forum_24"
+                        android:layout_centerHorizontal="true"/>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/navForum"
+                        android:layout_marginTop="0dp"
+                        android:text="Community Forum"
+                        android:textColor="@color/white"
+                        android:textSize="12dp"
+                        android:textStyle="bold" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
 
@@ -148,7 +179,17 @@
                         android:id="@+id/navNews"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:src="@drawable/ic_baseline_business_center_24" />
+                        android:src="@drawable/ic_baseline_business_center_24"
+                        android:layout_centerHorizontal="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/navNews"
+                        android:text="Latest News"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="15dp"/>
 
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>

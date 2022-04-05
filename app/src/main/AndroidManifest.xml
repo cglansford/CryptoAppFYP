@@ -15,7 +15,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_bitcoin_btc_logo"
-        android:label="@string/app_name"
+        android:label="Ferox"
         android:roundIcon="@drawable/ic_bitcoin_btc_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.CryptoApp">
@@ -46,7 +46,8 @@
           </activity>
 
         <activity android:name=".CoinInfo"
-            android:exported="true">
+            android:exported="true"
+            android:label="">
 
         </activity>
 
@@ -83,8 +84,13 @@
 
         <activity android:name=".Home"
             android:exported="true"
-            >
 
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".Forum"
@@ -92,11 +98,7 @@
             android:label="Forum"
             >
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name=".AddPost"

@@ -43,8 +43,8 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
     private ArrayList<NewsRVModel>newsRVModelArrayList;
     private NewsRVAdapter newsRVAdapter;
     private Spinner dropdownSpinner;
-    private static final String[] newsSources = {"All","yahoo", "coindesk", "economictimes", "abcnews",
-                                                    "cryptonews",  "cointelegraph"};
+    private static final String[] newsSources = {"All","abcnews", "coindesk",
+                                    "cointelegraph","cryptonews", "economictimes","yahoo"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -19,14 +20,23 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CoinInfo extends AppCompatActivity {
@@ -34,9 +44,14 @@ public class CoinInfo extends AppCompatActivity {
     private TextView bigPrice, bigTKR, bigName, bigPriceChange;
     private TextView circSupply, totalSupply, mCap, totalMCap;
     private TextView day1Holder, day7Holder, day30Holder;
+    private TextView pricePredictionHolder, upperBandHolder, lowerBandHolder;
     private String currencyName;
     private static DecimalFormat df6 = new DecimalFormat("###,###,###,###.######");
     private static DecimalFormat df2 = new DecimalFormat("###,###,###,###.##; -###,###,###,###.##");
+
+
+    FirebaseFirestore db;
+    DocumentReference docRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +68,68 @@ public class CoinInfo extends AppCompatActivity {
         day1Holder = findViewById(R.id.day1Holder);
         day7Holder= findViewById(R.id.day7Holder);
         day30Holder= findViewById(R.id.day30Holder);
+        pricePredictionHolder = findViewById(R.id.idPricePredictionHolder);
+        upperBandHolder = findViewById(R.id.idUpperBandHolder);
+        lowerBandHolder = findViewById(R.id.idLowerBandHolder);
 
+        db = FirebaseFirestore.getInstance();
+        docRef = db.collection("predictions").document("cryptos");
+
+        loadPrediction();
         Intent incomingIntent = getIntent();
         currencyName = (String) incomingIntent.getSerializableExtra("currencyName");
         getCurrencyData();
     }
 
+    private void loadPrediction(){
+
+        docRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()){
+
+                            //loads data to json array to be used in activity
+                            try {
+                                //checks to see if there is any entries in the users portfolio
+                                if(documentSnapshot.get("cryptos") != null) {
+                                    JSONArray json = new JSONArray(((List<?>) documentSnapshot.get("cryptos")).toArray());
+
+                                    for (int i = 0; i < json.length(); i++) {
+
+                                        String name = json.getJSONObject(i).getString("name");
+                                        if(name.equalsIgnoreCase(currencyName)){
+                                            pricePredictionHolder.setText("$ " + df6.format(json.getJSONObject(i).getDouble("Prediction")));
+                                            upperBandHolder.setText("$ " + df6.format(json.getJSONObject(i).getDouble("Upper Band")));
+                                            lowerBandHolder.setText("$ " + df6.format(json.getJSONObject(i).getDouble("Lower Band")));
+                                        }
+
+
+                                    }
+                                }else{
+                                    //if empty
+                                }
+
+
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }else{
+                            Intent intent = new Intent(getApplicationContext(), PortfolioEditor.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+    }
     private void getCurrencyData(){
 
         String url ="https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
