@@ -41,6 +41,14 @@ public class AddPost extends AppCompatActivity {
         postDesc = findViewById(R.id.idInputPostDesc);
         submitBTN = findViewById(R.id.postSubmitBTN);
 
+        Intent incomingIntent = getIntent();
+        NewsRVModel intentPost = (NewsRVModel) incomingIntent.getSerializableExtra("newsArticle");
+
+        postTitle.setText(intentPost.getHeadline());
+        postDesc.setText(intentPost.getSourceURL());
+
+
+
         mUser = FirebaseAuth.getInstance().getCurrentUser();
 
         db = FirebaseFirestore.getInstance();

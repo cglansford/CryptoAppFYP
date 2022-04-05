@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class News extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class News extends AppCompatActivity implements AdapterView.OnItemSelectedListener, RecyclerViewInterface{
 
     private RecyclerView newsRV;
 
@@ -58,19 +58,19 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
         getNewsData();
 
         newsRVModelArrayList = new ArrayList<>();
-        newsRVAdapter = new NewsRVAdapter(newsRVModelArrayList, this);
+        newsRVAdapter = new NewsRVAdapter(newsRVModelArrayList, this, this);
         newsRV.setLayoutManager(new LinearLayoutManager(this));
         newsRV.setAdapter(newsRVAdapter);
 
 
 
-        ArrayAdapter<String>dropdownAdapter = new ArrayAdapter<String>(News.this,
+       /* ArrayAdapter<String>dropdownAdapter = new ArrayAdapter<String>(News.this,
                 android.R.layout.simple_spinner_item, newsSources);
         dropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdownSpinner.setAdapter(dropdownAdapter);
         dropdownSpinner.setSelection(0);
         dropdownSpinner.setOnItemSelectedListener(this);
-
+*/
     }
 
     @Override
@@ -213,5 +213,13 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemLongClick(int position) {
+        Intent intent = new Intent(getApplicationContext(), AddPost.class);
+        intent.putExtra("newsArticle", newsRVModelArrayList.get(position));
+        startActivity(intent);
+
     }
 }

@@ -122,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
 
     }
 
+
+
     ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -137,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
             intent.putExtra("currencyName", currencyRVModelArrayList.get(pos).getName());
             startActivity(intent);
             }
+
+
     };
 
     //Create filter function to be able to search for a particular coin

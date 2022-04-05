@@ -14,13 +14,14 @@ import java.util.ArrayList;
 public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder> {
 
     //Creating the adapter for the recycler view to present the list data of the api data
-
+    private final RecyclerViewInterface recyclerViewInterface;
     private ArrayList<NewsRVModel> newsRVModelArrayList;
     private Context context;
 
-    public NewsRVAdapter(ArrayList<NewsRVModel> newsRVModelArrayList, Context context) {
+    public NewsRVAdapter(ArrayList<NewsRVModel> newsRVModelArrayList, Context context, RecyclerViewInterface recyclerViewInterface) {
         this.newsRVModelArrayList = newsRVModelArrayList;
         this.context = context;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
 
     //Updates the list once filtered
@@ -34,7 +35,7 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
     @Override
     public NewsRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.news_rv_item,parent,false);
-        return new NewsRVAdapter.ViewHolder(view);
+        return new NewsRVAdapter.ViewHolder(view, recyclerViewInterface);
     }
 
     @Override
@@ -52,11 +53,26 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView headlineTV, urlSourceTV, sourceNameTV;
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             headlineTV = itemView.findViewById(R.id.idTVHeadline);
             urlSourceTV = itemView.findViewById(R.id.idTVLink);
             sourceNameTV = itemView.findViewById(R.id.idTVSource);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if(recyclerViewInterface != null) {
+                        int pos = getAdapterPosition();
+
+                        if (pos != RecyclerView.NO_POSITION)
+                            recyclerViewInterface.onItemLongClick(pos);
+                    }
+                    return true;
+                }
+            });
+
+
         }
     }
 }

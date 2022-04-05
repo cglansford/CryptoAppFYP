@@ -1,6 +1,10 @@
 package com.example.cryptoapp;
 
-public class NewsRVModel {
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class NewsRVModel implements Serializable {
     private String headline;
     private String sourceURL;
     private String sourceName;

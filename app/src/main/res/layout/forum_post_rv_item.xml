@@ -15,20 +15,20 @@
 
         <TextView
             android:id="@+id/idPostTitle"
-            android:layout_width="204dp"
+            android:layout_width="302dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="3dp"
             android:layout_marginTop="2dp"
-            android:layout_marginEnd="196dp"
+            android:layout_marginEnd="98dp"
             android:layout_marginRight="165dp"
             android:layout_marginBottom="2dp"
             android:hint="Title"
             android:padding="3dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
@@ -48,16 +48,16 @@
 
         <TextView
             android:id="@+id/idPostUsername"
-            android:layout_width="159dp"
-            android:layout_height="wrap_content"
+            android:layout_width="97dp"
+            android:layout_height="25dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="3dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="-3dp"
             android:hint="Username"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="18dp"
+            android:textSize="10dp"
             android:textStyle="bold" />
 
     </RelativeLayout>
