@@ -91,7 +91,9 @@ public class Forum extends AppCompatActivity implements PostRVAdapter.OnEditList
 
     @Override
     public void onEditClick(int position) {
-
+        Intent intent = new Intent(this, Post.class);
+        intent.putExtra("postData", postRVModelArrayList.get(position));
+        startActivity(intent);
     }
 
     //Loads option menu

@@ -104,8 +104,11 @@
         <activity android:name=".AddPost"
             android:exported="true"
             android:label="Add Post"
-            >
+            />
+        <activity android:name=".Post"
+            android:exported="true"
+            android:label=""
+            />
 
-        </activity>
     </application>
 </manifest>

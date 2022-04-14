@@ -44,9 +44,10 @@ public class AddPost extends AppCompatActivity {
         Intent incomingIntent = getIntent();
         NewsRVModel intentPost = (NewsRVModel) incomingIntent.getSerializableExtra("newsArticle");
 
-        postTitle.setText(intentPost.getHeadline());
-        postDesc.setText(intentPost.getSourceURL());
-
+        if(intentPost!=null) {
+            postTitle.setText(intentPost.getHeadline());
+            postDesc.setText(intentPost.getSourceURL());
+        }
 
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();

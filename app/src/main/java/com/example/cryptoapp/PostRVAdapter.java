@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,9 +20,10 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.ViewHolder
     private ArrayList<PostRVModel> postRVModelArrayList;
     private Context context;
     private Activity activity;
-
-
     private OnEditListener mOnEditListener;
+
+
+
 
     public PostRVAdapter(ArrayList<PostRVModel> postRVModelArrayList, Activity activity, Context context, OnEditListener onEditListener) {
         this.postRVModelArrayList = postRVModelArrayList;
@@ -56,21 +56,22 @@ public class PostRVAdapter extends RecyclerView.Adapter<PostRVAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView postTitle, postDesc, postCreator;
 
-        PostRVAdapter.OnEditListener onEditListener;
+        OnEditListener onEditListener;
 
-        public ViewHolder(@NonNull View itemView, PostRVAdapter.OnEditListener onEditListener) {
+        public ViewHolder(@NonNull View itemView, OnEditListener onEditListener) {
             super(itemView);
             postTitle = itemView.findViewById(R.id.idPostTitle);
             postDesc = itemView.findViewById(R.id.idPostDesc);
             postCreator = itemView.findViewById(R.id.idPostUsername);
             this.onEditListener = onEditListener;
-
+            postTitle.setOnClickListener(this);
+            postDesc.setOnClickListener(this);
         }
 
 
         @Override
         public void onClick(View v) {
-
+            onEditListener.onEditClick(getAdapterPosition());
         }
 
 

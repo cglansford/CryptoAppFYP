@@ -7,8 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
+
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -16,13 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.AuthFailureError;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
+
+
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
@@ -92,14 +89,11 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
             ArrayList<NewsRVModel> filteredList = new ArrayList<>();
             if(source.equals("All")) {
 
-                for (NewsRVModel item : newsRVModelArrayList) {
-
-                    filteredList.add(item);
-                }
+                filteredList.addAll(newsRVModelArrayList);
             }else{
                 for (NewsRVModel item : newsRVModelArrayList) {
                     //If searched currency is in the list, adds to list
-                    if (item.getSourceName().toLowerCase().equals(source.toLowerCase())) {
+                    if (item.getSourceName().equalsIgnoreCase(source)) {
                         filteredList.add(item);
                     }
                 }
@@ -115,39 +109,30 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
 
         String url ="https://crypto-news6.p.rapidapi.com/news";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        //To handle possible errors
+        StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
 
-                //Extract data to List
-                try {
-                    JSONArray dataArray =  new JSONArray(response);
-                    //For loop gets the JSON object isolated so that can extract the value for ticket, name, price
-                    for(int i = 0; i< dataArray.length(); i++) {
-                        JSONObject dataObj = dataArray.getJSONObject(i);
-                        String headline = dataObj.getString("title");
-                        String sourceUrl = dataObj.getString("url");
-                        String source = dataObj.getString("source");
+            //Extract data to List
+            try {
+                JSONArray dataArray =  new JSONArray(response);
+                //For loop gets the JSON object isolated so that can extract the value for ticket, name, price
+                for(int i = 0; i< dataArray.length(); i++) {
+                    JSONObject dataObj = dataArray.getJSONObject(i);
+                    String headline = dataObj.getString("title");
+                    String sourceUrl = dataObj.getString("url");
+                    String source = dataObj.getString("source");
 
-                        newsRVModelArrayList.add(new NewsRVModel(headline,sourceUrl, source ));
-                    }
-                    //Notify adapter that the data of array list has been updated
-                    newsRVAdapter.notifyDataSetChanged();
-                }catch (JSONException e){
-                    e.printStackTrace();
-                    Toast.makeText(News.this, "Failed to extract json data..", Toast.LENGTH_SHORT).show();
+                    newsRVModelArrayList.add(new NewsRVModel(headline,sourceUrl, source ));
                 }
+                //Notify adapter that the data of array list has been updated
+                newsRVAdapter.notifyDataSetChanged();
+            }catch (JSONException e){
+                e.printStackTrace();
+                Toast.makeText(News.this, "Failed to extract json data..", Toast.LENGTH_SHORT).show();
             }
-        }, new Response.ErrorListener() {
-            //To handle possible errors
+        }, error -> Toast.makeText(News.this, "Failed to get the data..", Toast.LENGTH_SHORT).show()){
             @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(News.this, "Failed to get the data..", Toast.LENGTH_SHORT).show();
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 HashMap<String, String> headers = new HashMap<>();
                 //Header for the GET request on CMC api - Key Name and Key Value
                 headers.put("X-RapidAPI-Key","b78c6a4786msha14f0241d475bc8p13cd39jsn651802d67073");

@@ -1,15 +1,20 @@
 package com.example.cryptoapp;
 
-public class PostRVModel {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class PostRVModel implements Serializable {
 
     private String postTitle;
     private String postDesc;
     private String uidOfCreator;
+    private ArrayList<String> commentsList;
 
     public PostRVModel(String postTitle, String postDesc, String uidOfCreator){
         this.postTitle = postTitle;
         this.postDesc = postDesc;
         this.uidOfCreator = uidOfCreator;
+        this.commentsList = new ArrayList<>();
     }
 
     public String getPostTitle() {
@@ -34,5 +39,13 @@ public class PostRVModel {
 
     public void setUidOfCreator(String uidOfCreator) {
         this.uidOfCreator = uidOfCreator;
+    }
+
+    public ArrayList<String> getCommentsList() {
+        return commentsList;
+    }
+
+    public void setCommentsList(ArrayList<String> commentsList) {
+        this.commentsList = commentsList;
     }
 }
