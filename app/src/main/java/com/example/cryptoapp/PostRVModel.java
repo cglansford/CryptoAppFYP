@@ -8,7 +8,7 @@ public class PostRVModel implements Serializable {
     private String postTitle;
     private String postDesc;
     private String uidOfCreator;
-    private ArrayList<String> commentsList;
+    private ArrayList<CommentModel> commentsList;
 
     public PostRVModel(String postTitle, String postDesc, String uidOfCreator){
         this.postTitle = postTitle;
@@ -41,11 +41,11 @@ public class PostRVModel implements Serializable {
         this.uidOfCreator = uidOfCreator;
     }
 
-    public ArrayList<String> getCommentsList() {
+    public ArrayList<CommentModel> getCommentsList() {
         return commentsList;
     }
 
-    public void setCommentsList(ArrayList<String> commentsList) {
+    public void setCommentsList(ArrayList<CommentModel> commentsList) {
         this.commentsList = commentsList;
     }
 }

@@ -16,21 +16,48 @@
         <TextView
             android:id="@+id/idComment"
             android:layout_width="401dp"
-            android:layout_height="70dp"
+            android:layout_height="46dp"
+            android:layout_below="@+id/textView3"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="0dp"
 
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="2dp"
             android:layout_marginRight="-23dp"
             android:layout_marginBottom="5dp"
             android:padding="3dp"
-            android:text="Comment"
+            android:hint="Comment"
             android:textColor="@color/white"
             android:textSize="16dp"
+             />
+
+        <TextView
+            android:id="@+id/idUserID"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="3dp"
+            android:hint="UserID"
+            android:textColor="@color/white"
+            android:textSize="14dp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/idTimeStamp"
+            android:layout_width="134dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="57dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="1dp"
+            android:layout_toEndOf="@+id/idUserID"
+            android:hint="timestamp"
+            android:textColor="@color/white"
+            android:textSize="11dp" />
 
     </RelativeLayout>
 
