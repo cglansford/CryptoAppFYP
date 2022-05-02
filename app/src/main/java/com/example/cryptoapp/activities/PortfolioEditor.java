@@ -46,6 +46,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PortfolioEditor extends AppCompatActivity {
@@ -58,7 +59,7 @@ public class PortfolioEditor extends AppCompatActivity {
     private TextView cryptoTV;
     Dialog dialog;
     private ArrayList coinList = new ArrayList();
-
+    PortfolioRVModel coinHoldingFound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,10 +157,42 @@ public class PortfolioEditor extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("users").document(mUser.getUid()).collection("crypto").document("portfolioList");
 
+        //Searches db to see if there is existing holding
+        searchCoinHolding(pv);
+
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
 
+                //If there is existing holding remove from db array
+                if(coinHoldingFound != null){
+                    docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                            docRef.update("list", FieldValue.arrayRemove(coinHoldingFound))
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+
+                                        }
+                                    });
+
+                        }
+
+
+
+                    });
+                    pv.addHolding(coinHoldingFound.getHoldingAmount());
+                }
+
+                //add holding to db array
                 docRef.update("list", FieldValue.arrayUnion(pv))
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -196,6 +229,46 @@ public class PortfolioEditor extends AppCompatActivity {
                         });
             }
         });
+
+    }
+
+    //Search db for existing user portfolio holding
+    public void searchCoinHolding(PortfolioRVModel pModel) {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("users").document(mUser.getUid()).collection("crypto").document("portfolioList");
+        docRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        try {
+                            //Search for users
+                            if (documentSnapshot.get("list") != null) {
+                                JSONArray json = new JSONArray(((List<?>) documentSnapshot.get("list")).toArray());
+                                //iterate through array
+                                for (int i = 0; i < json.length(); i++) {
+                                    String name = json.getJSONObject(i).getString("name");
+                                    double holding = Double.parseDouble(json.getJSONObject(i).getString("holdingAmount"));
+                                    //if holding name is found in users portfolio return model
+                                    if (name.equals(pModel.getName())) {
+                                        coinHoldingFound = new PortfolioRVModel(name, holding);
+
+                                    }
+
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
     }
 
     //Load coin data from api

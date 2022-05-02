@@ -36,4 +36,6 @@ public class PortfolioRVModel implements Serializable {
     public void setDollarTotal(double dollarTotal) {
         this.dollarTotal = dollarTotal;
     }
+
+    public void addHolding(double holdingAmount){this.holdingAmount += holdingAmount;}
 }

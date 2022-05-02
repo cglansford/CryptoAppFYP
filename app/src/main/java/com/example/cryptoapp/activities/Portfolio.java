@@ -230,7 +230,6 @@ public class Portfolio extends AppCompatActivity implements PortfolioRVAdapter.O
                             startActivity(intent);
                         }
                     }
-
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
