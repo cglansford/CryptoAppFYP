@@ -1,4 +1,4 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,41 +12,42 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cryptoapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Login extends AppCompatActivity {
-
-    EditText mUsername, mPassword;
-    Button mLoginBTN;
-    TextView createAccount;
+public class Register extends AppCompatActivity {
+    EditText mUsername, mPassword, mPasswordCheck;
+    Button mRegisterBTN;
+    TextView mLoginBTN;
     FirebaseAuth fAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
 
         mUsername = findViewById(R.id.username);
         mPassword = findViewById(R.id.password);
+        mPasswordCheck = findViewById(R.id.passwordCheck);
+        mRegisterBTN = findViewById(R.id.registerBTN);
+        mLoginBTN = findViewById(R.id.createAccount);
+
         fAuth = FirebaseAuth.getInstance();
-        mLoginBTN = findViewById(R.id.loginBTN);
-        createAccount = findViewById(R.id.createAccount);
 
-
-        //if user is already logged in then send them to main activity
-        if(fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            finish();
-        }
-
-        mLoginBTN.setOnClickListener(new View.OnClickListener() {
+        mRegisterBTN.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
                 String username = mUsername.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
+                String passwordCheck = mPasswordCheck.getText().toString().trim();
+
+
 
                 if(TextUtils.isEmpty(username)){
                     mUsername.setError("Username is required");
@@ -61,28 +62,37 @@ public class Login extends AppCompatActivity {
                     return;
                 }
 
-                //Authenticate user in DB
-                fAuth.signInWithEmailAndPassword(username, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                if(!password.equalsIgnoreCase(passwordCheck)){
+                    mPassword.setError("Passwords must match");
+                    return;
+                }
+
+                //register the user in firebase
+                fAuth.createUserWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(Login.this, "Logged in successfully. ", Toast.LENGTH_SHORT).show();
+
+                        if (task.isSuccessful()) {
+
+                            Toast.makeText(Register.this, "Account Created. ", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+
                         }else {
-                            Toast.makeText(Login.this, "Error !. " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(Register.this, "Error !. " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
             }
         });
 
-        createAccount.setOnClickListener(new View.OnClickListener() {
+
+        //Go to login Page
+        mLoginBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), Register.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
             }
         });
+
     }
 }

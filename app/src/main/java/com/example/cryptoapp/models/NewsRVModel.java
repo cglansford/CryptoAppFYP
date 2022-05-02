@@ -1,4 +1,4 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.models;
 
 import android.os.Parcelable;
 

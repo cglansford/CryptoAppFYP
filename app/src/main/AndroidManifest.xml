@@ -33,28 +33,28 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".activities.MapsActivity"
             android:exported="true"
             android:label="Where To Spend Your Crypto"></activity>
 
-        <activity android:name=".News"
+        <activity android:name=".activities.News"
             android:exported="true"/>
 
         <activity android:exported="true"
-            android:name="MainActivity"
+            android:name=".activities.MainActivity"
             android:label="">
           </activity>
 
-        <activity android:name=".CoinInfo"
+        <activity android:name=".activities.CoinInfo"
             android:exported="true"
             android:label="">
         </activity>
 
-        <activity android:name=".Register"
+        <activity android:name=".activities.Register"
             android:exported="true"
             android:label=""/>
         <activity
-            android:name=".Login"
+            android:name=".activities.Login"
             android:exported="true"
             android:label="">
             <intent-filter>
@@ -64,39 +64,39 @@
         </activity>
 
         <activity
-            android:name=".FavList"
+            android:name=".activities.FavList"
             android:exported="true"
             android:label="Favourites">
             </activity>
 
-        <activity android:name=".Portfolio"
+        <activity android:name=".activities.Portfolio"
             android:exported="true"
             android:label="My Portfolio">
         </activity>
 
-        <activity android:name=".PortfolioEditor"
+        <activity android:name=".activities.PortfolioEditor"
             android:exported="true"
             android:label="Add To Your Portfolio">
         </activity>
 
-        <activity android:name=".PortfolioEditItem"
+        <activity android:name=".activities.PortfolioEditItem"
             android:exported="true"
             android:label="Edit Holding">
         </activity>
 
-        <activity android:name=".Home"
+        <activity android:name=".activities.Home"
             android:exported="true">
         </activity>
 
-        <activity android:name=".Forum"
+        <activity android:name=".activities.Forum"
             android:exported="true"
             android:label="Forum">
         </activity>
 
-        <activity android:name=".AddPost"
+        <activity android:name=".activities.AddPost"
             android:exported="true"
             android:label="Add Post"/>
-        <activity android:name=".Post"
+        <activity android:name=".activities.Post"
             android:exported="true"
             android:label=""/>
 

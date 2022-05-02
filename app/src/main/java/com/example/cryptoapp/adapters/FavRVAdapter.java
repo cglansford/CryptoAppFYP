@@ -1,4 +1,4 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cryptoapp.models.FavRVModel;
+import com.example.cryptoapp.R;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

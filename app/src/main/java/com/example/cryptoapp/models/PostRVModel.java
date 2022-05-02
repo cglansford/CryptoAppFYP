@@ -1,4 +1,6 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.models;
+
+import com.example.cryptoapp.models.CommentModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;

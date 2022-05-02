@@ -1,4 +1,4 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +23,10 @@ import com.android.volley.RequestQueue;
 
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.cryptoapp.R;
+import com.example.cryptoapp.RecyclerViewInterface;
+import com.example.cryptoapp.adapters.NewsRVAdapter;
+import com.example.cryptoapp.models.NewsRVModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
@@ -34,7 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class News extends AppCompatActivity implements AdapterView.OnItemSelectedListener, RecyclerViewInterface{
+public class News extends AppCompatActivity implements AdapterView.OnItemSelectedListener, RecyclerViewInterface {
 
     private RecyclerView newsRV;
 
@@ -68,13 +72,12 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
         dropdownSpinner.setAdapter(dropdownAdapter);
         dropdownSpinner.setSelection(0);
         dropdownSpinner.setOnItemSelectedListener(this);
-        filterNewsSource("All");
+
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id){
         filterNewsSource((String) parent.getItemAtPosition(position));
-        Toast.makeText(News.this, "Test", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -82,6 +85,14 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
 
     }
 
+    //Hold news article to share to post creation
+    @Override
+    public void onItemLongClick(int position) {
+        Intent intent = new Intent(getApplicationContext(), AddPost.class);
+        intent.putExtra("newsArticle", newsRVAdapter.getList().get(position));
+        startActivity(intent);
+
+    }
 
     //Create filter function to be able to search for a particular coin
     private void filterNewsSource(String source){
@@ -167,8 +178,6 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
         else if (id==R.id.news){
             Intent intent = new Intent(this, News.class);
             startActivity(intent);
-
-
         }
 
         else if(id==R.id.forum){
@@ -190,17 +199,11 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();
-
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onItemLongClick(int position) {
-        Intent intent = new Intent(getApplicationContext(), AddPost.class);
-        intent.putExtra("newsArticle", newsRVModelArrayList.get(position));
-        startActivity(intent);
 
-    }
+
 }

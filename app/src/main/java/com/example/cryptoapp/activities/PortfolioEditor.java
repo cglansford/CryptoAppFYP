@@ -1,4 +1,4 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -17,15 +17,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,6 +29,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.cryptoapp.R;
+import com.example.cryptoapp.models.PortfolioRVModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -136,6 +133,12 @@ public class PortfolioEditor extends AppCompatActivity {
         //Error Handling
         if(TextUtils.isEmpty(amtHolding.getText())){
             amtHolding.setError("Cannot Be Empty");
+            return;
+        }
+        try{
+            Double.parseDouble(amtHolding.getText().toString());
+        }catch(NumberFormatException e){
+            amtHolding.setError("Please enter a number");
             return;
         }
         if(Double.parseDouble(String.valueOf(amtHolding.getText()))<0){

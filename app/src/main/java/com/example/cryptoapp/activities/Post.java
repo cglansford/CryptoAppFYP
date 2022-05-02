@@ -1,4 +1,4 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.activities;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -21,6 +21,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cryptoapp.adapters.PostCommentsRVAdapter;
+import com.example.cryptoapp.R;
+import com.example.cryptoapp.models.CommentModel;
+import com.example.cryptoapp.models.PostRVModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

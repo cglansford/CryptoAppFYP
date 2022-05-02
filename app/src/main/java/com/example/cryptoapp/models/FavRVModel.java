@@ -1,11 +1,11 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.models;
 
-public class CurrencyRVModel {
+public class FavRVModel {
     private String name;
     private String ticker;
     private double price;
 
-    public CurrencyRVModel(String name, String ticker, double price) {
+    public FavRVModel(String name, String ticker, double price) {
         this.name = name;
         this.ticker = ticker;
         this.price = price;

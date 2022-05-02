@@ -1,4 +1,4 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +26,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.cryptoapp.R;
+import com.example.cryptoapp.adapters.CurrencyRVAdapter;
+import com.example.cryptoapp.models.CurrencyRVModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -118,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             int pos = viewHolder.getAdapterPosition();
             Intent intent = new Intent(getApplicationContext(), CoinInfo.class);
-            intent.putExtra("currencyName", currencyRVModelArrayList.get(pos).getName());
+            intent.putExtra("currencyName", currencyRVAdapter.getList().get(pos).getName());
             startActivity(intent);
             }
 

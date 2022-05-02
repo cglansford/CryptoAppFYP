@@ -1,4 +1,4 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.adapters;
 
 
 import android.app.Activity;
@@ -6,12 +6,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cryptoapp.R;
+import com.example.cryptoapp.models.PortfolioRVModel;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

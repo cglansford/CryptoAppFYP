@@ -1,4 +1,4 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cryptoapp.R;
+import com.example.cryptoapp.RecyclerViewInterface;
+import com.example.cryptoapp.models.NewsRVModel;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder> {
 
@@ -75,4 +80,6 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.ViewHolder
 
         }
     }
+
+    public List<NewsRVModel> getList(){return newsRVModelArrayList;}
 }

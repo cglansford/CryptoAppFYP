@@ -1,4 +1,4 @@
-package com.example.cryptoapp;
+package com.example.cryptoapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,11 +10,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cryptoapp.R;
+import com.example.cryptoapp.models.PortfolioRVModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -90,6 +91,12 @@ public class PortfolioEditItem extends AppCompatActivity {
                 //Error Handling
                 if(TextUtils.isEmpty(editHolding.getText())){
                     editHolding.setError("Cannot Be Empty");
+                    return;
+                }
+                try{
+                    Double.parseDouble(editHolding.getText().toString());
+                }catch(NumberFormatException e){
+                    editHolding.setError("Please enter a number");
                     return;
                 }
                 if(Double.parseDouble(String.valueOf(editHolding.getText()))<0){
