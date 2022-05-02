@@ -2,6 +2,7 @@ package com.example.cryptoapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -72,6 +73,16 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
         dropdownSpinner.setAdapter(dropdownAdapter);
         dropdownSpinner.setSelection(0);
         dropdownSpinner.setOnItemSelectedListener(this);
+
+        Handler handler = new Handler();
+
+        //Delay to allow news api list to load
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                filterNewsSource("All");
+            }
+        }, 500);
 
     }
 
