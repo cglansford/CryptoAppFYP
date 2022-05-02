@@ -5,6 +5,7 @@ import static com.android.volley.VolleyLog.TAG;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,6 +44,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
+//Displays post info with previous comments. User can add comments to post
 public class Post extends AppCompatActivity {
 
     private TextView postTitle, postContent;
@@ -73,9 +75,6 @@ public class Post extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-
-
-
         //Post data from forum list after clicked
         Intent incomingIntent = getIntent();
         PostRVModel intentPost = (PostRVModel) incomingIntent.getSerializableExtra("postData");
@@ -84,14 +83,10 @@ public class Post extends AppCompatActivity {
         postTitle.setText(intentPost.getPostTitle());
         postContent.setText(intentPost.getPostDesc());
 
-
-
         addCommentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addComment();
-
-
                 //Delay to allow comment be written to DB and then loaded for updated comments list
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -147,7 +142,13 @@ public class Post extends AppCompatActivity {
     private void addComment(){
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         String timeStamp = new SimpleDateFormat("dd/MM/yyyy_HH:mm:ss").format(Calendar.getInstance().getTime());
-        CommentModel aComment = new CommentModel(mUser.getEmail(), commentContent.getText().toString(), timeStamp);
+        String comment = commentContent.getText().toString();
+
+        if(TextUtils.isEmpty(comment)){
+            commentContent.setError("Required");
+        }
+
+        CommentModel aComment = new CommentModel(mUser.getEmail(), comment, timeStamp);
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -177,7 +178,6 @@ public class Post extends AppCompatActivity {
 
                                             }
                                         });
-
                             }
                         });
             }

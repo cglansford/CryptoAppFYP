@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +35,12 @@ public class Login extends AppCompatActivity {
         mLoginBTN = findViewById(R.id.loginBTN);
         createAccount = findViewById(R.id.createAccount);
 
+
+        //if user is already logged in then send them to main activity
+        if(fAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }
 
         mLoginBTN.setOnClickListener(new View.OnClickListener() {
             @Override

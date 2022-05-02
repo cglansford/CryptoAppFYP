@@ -2,6 +2,7 @@ package com.example.cryptoapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
+//Add post to forum
 public class AddPost extends AppCompatActivity {
 
 
@@ -49,9 +50,7 @@ public class AddPost extends AppCompatActivity {
             postDesc.setText(intentPost.getSourceURL());
         }
 
-
         mUser = FirebaseAuth.getInstance().getCurrentUser();
-
         db = FirebaseFirestore.getInstance();
         docRef = db.collection("posts").document();
 
@@ -61,6 +60,16 @@ public class AddPost extends AppCompatActivity {
                 String postTitleContent = postTitle.getText().toString();
                 String postDescContent = postDesc.getText().toString();
                 String postCreator = mUser.getEmail();
+
+                if(TextUtils.isEmpty(postTitleContent)){
+                    postTitle.setError("Title is required");
+                    return;
+                }
+                if(TextUtils.isEmpty(postDescContent)){
+                    postDesc.setError("Required");
+                    return;
+                }
+
                 PostRVModel aPost = new PostRVModel(postTitleContent, postDescContent, postCreator);
 
                 docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

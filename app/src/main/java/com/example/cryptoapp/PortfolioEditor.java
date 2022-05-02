@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -76,8 +77,8 @@ public class PortfolioEditor extends AppCompatActivity {
         cryptoTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Shows list of possible cryptocurrency entries based of price api
                 dialog = new Dialog(PortfolioEditor.this);
-
                 dialog.setContentView(R.layout.dialog_spinner);
                 dialog.getWindow().setLayout(650, 800);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -92,7 +93,6 @@ public class PortfolioEditor extends AppCompatActivity {
                 editText.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                     }
 
                     @Override
@@ -102,7 +102,6 @@ public class PortfolioEditor extends AppCompatActivity {
 
                     @Override
                     public void afterTextChanged(Editable s) {
-
                     }
                 });
 
@@ -133,8 +132,21 @@ public class PortfolioEditor extends AppCompatActivity {
 
 
     public void addHolding() {
+
+        //Error Handling
+        if(TextUtils.isEmpty(amtHolding.getText())){
+            amtHolding.setError("Cannot Be Empty");
+            return;
+        }
+        if(Double.parseDouble(String.valueOf(amtHolding.getText()))<0){
+            amtHolding.setError("Must be 0 or greater");
+            return;
+        }
+
+        //Assign values for portfolio entry
         String coinName = cryptoTV.getText().toString();
         double coinHolding = Double.parseDouble(amtHolding.getText().toString());
+
 
         PortfolioRVModel pv = new PortfolioRVModel(coinName, coinHolding);
 
@@ -175,28 +187,23 @@ public class PortfolioEditor extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-
-
                                             }
                                         });
-
                             }
                         });
-
             }
         });
-
-
     }
 
-
+    //Load coin data from api
     public void loadCoinList() {
         String url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
+        //JSON Request
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                //Extract data to List
+                //Extract data to json array
                 try {
                     JSONArray dataArray = response.getJSONArray("data");
                     //For loop gets the JSON object isolated so that can extract the value for ticket, name, price

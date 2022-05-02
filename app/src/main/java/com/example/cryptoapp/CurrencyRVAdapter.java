@@ -2,7 +2,6 @@ package com.example.cryptoapp;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,16 +20,16 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
     //Creating the adapter for the recycler view to present the list data of the api data
 
     private ArrayList<CurrencyRVModel> currencyRVModelArrayList;
-    private ArrayList<String> portfolioListCurrencies;
+    private ArrayList<String> favListCurrencies;
      private Context context;
      private Activity activity;
      //To convert prices into 6 decimals as some coins are small price, large mcap
      private static DecimalFormat df6 = new DecimalFormat("#.######");
     private OnEditListener mOnEditListener;
 
-    public CurrencyRVAdapter(ArrayList<CurrencyRVModel> currencyRVModelArrayList, ArrayList<String> portfolioListCurrencies, Activity activity, Context context, OnEditListener onEditListener) {
+    public CurrencyRVAdapter(ArrayList<CurrencyRVModel> currencyRVModelArrayList, ArrayList<String> favListCurrencies, Activity activity, Context context, OnEditListener onEditListener) {
         this.currencyRVModelArrayList = currencyRVModelArrayList;
-        this.portfolioListCurrencies = portfolioListCurrencies;
+        this.favListCurrencies = favListCurrencies;
         this.activity = activity;
         this.context = context;
         this.mOnEditListener = onEditListener;
@@ -57,8 +55,9 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
         //Making sure price is in correct format
         holder.rateTV.setText("$ " + df6.format(currencyRVModel.getPrice()));
 
-        for(int i =0; i<portfolioListCurrencies.size();i++){
-            if(currencyRVModel.getName().equalsIgnoreCase(portfolioListCurrencies.get(i))){
+        //Sets star to be full if crypto is in users favlist
+        for(int i = 0; i< favListCurrencies.size(); i++){
+            if(currencyRVModel.getName().equalsIgnoreCase(favListCurrencies.get(i))){
                 holder.star.setImageResource(R.drawable.ic_full_star);
             }
         }
@@ -83,9 +82,7 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
             star.setOnClickListener(this);
         }
 
-
-
-
+        //When star is clicked change image
         @Override
         public void onClick(View v) {
             onEditListener.onEditClick(getAdapterPosition());
@@ -96,11 +93,7 @@ public class CurrencyRVAdapter extends RecyclerView.Adapter<CurrencyRVAdapter.Vi
                 star.setImageResource(R.drawable.ic_star_outline);
                 star.setTag("starOutline");
             }
-
-
         }
-
-
     }
 
     //To send position of clicked item in activity

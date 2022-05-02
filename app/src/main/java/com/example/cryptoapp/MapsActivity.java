@@ -139,10 +139,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
                 //Extract data to List
                 try {
-
                     JSONArray dataArray = response.getJSONArray("venues");
                     for(int i = 0; i< dataArray.length(); i++) {
                         JSONObject dataObj = dataArray.getJSONObject(i);
@@ -151,11 +149,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         double lat = dataObj.getDouble("lat");
                         double lng = dataObj.getDouble("lon");
                         String cat = dataObj.getString("category");
-
                         LatLng test = new LatLng(lat, lng);
                         mMap.addMarker(new MarkerOptions().position(test).title(name).snippet(cat));
                     }
-
                 }catch (JSONException e){
                     e.printStackTrace();
                     Toast.makeText(MapsActivity.this, "Failed to extract json data..", Toast.LENGTH_SHORT).show();

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,8 +41,8 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
     private ArrayList<NewsRVModel>newsRVModelArrayList;
     private NewsRVAdapter newsRVAdapter;
     private Spinner dropdownSpinner;
-    private static final String[] newsSources = {"All","abcnews", "coindesk",
-                                    "cointelegraph","cryptonews", "economictimes","yahoo"};
+    private static final String[] newsSources = {"All","Abcnews", "Coindesk",
+                                    "Cointelegraph","Cryptonews", "Economictimes","Yahoo"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,22 +53,22 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
         dropdownSpinner = findViewById(R.id.sourceSpinner);
 
 
-        getNewsData();
+
 
         newsRVModelArrayList = new ArrayList<>();
         newsRVAdapter = new NewsRVAdapter(newsRVModelArrayList, this, this);
         newsRV.setLayoutManager(new LinearLayoutManager(this));
         newsRV.setAdapter(newsRVAdapter);
 
+        getNewsData();
 
-
-       /* ArrayAdapter<String>dropdownAdapter = new ArrayAdapter<String>(News.this,
+       ArrayAdapter<String>dropdownAdapter = new ArrayAdapter<String>(News.this,
                 android.R.layout.simple_spinner_item, newsSources);
         dropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdownSpinner.setAdapter(dropdownAdapter);
         dropdownSpinner.setSelection(0);
         dropdownSpinner.setOnItemSelectedListener(this);
-*/
+        filterNewsSource("All");
     }
 
     @Override
@@ -79,7 +80,6 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-        filterNewsSource("All");
     }
 
 
@@ -106,12 +106,10 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
 
     //Loads news data and adds to array list of news stories to be displayed
     private void getNewsData(){
-
         String url ="https://crypto-news6.p.rapidapi.com/news";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         //To handle possible errors
         StringRequest request = new StringRequest(Request.Method.GET, url, response -> {
-
             //Extract data to List
             try {
                 JSONArray dataArray =  new JSONArray(response);
@@ -121,14 +119,10 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
                     String headline = dataObj.getString("title");
                     String sourceUrl = dataObj.getString("url");
                     String source = dataObj.getString("source");
-
                     newsRVModelArrayList.add(new NewsRVModel(headline,sourceUrl, source ));
                 }
-                //Notify adapter that the data of array list has been updated
-                newsRVAdapter.notifyDataSetChanged();
             }catch (JSONException e){
-                e.printStackTrace();
-                Toast.makeText(News.this, "Failed to extract json data..", Toast.LENGTH_SHORT).show();
+               getNewsData();
             }
         }, error -> Toast.makeText(News.this, "Failed to get the data..", Toast.LENGTH_SHORT).show()){
             @Override
@@ -139,6 +133,8 @@ public class News extends AppCompatActivity implements AdapterView.OnItemSelecte
                 return headers;
             }
         };
+        //Notify adapter that the data of array list has been updated
+        newsRVAdapter.notifyDataSetChanged();
         requestQueue.add(request);
     }
 

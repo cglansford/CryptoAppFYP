@@ -13,29 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Register extends AppCompatActivity {
-    EditText mUsername, mPassword, mPasswordCheck, mPhoneNumber, mName;
+    EditText mUsername, mPassword, mPasswordCheck;
     Button mRegisterBTN;
     TextView mLoginBTN;
-    FirebaseDatabase database;
-    DatabaseReference mDatabase;
-    FirebaseAuth mAuth;
+    FirebaseAuth fAuth;
 
-
-
-    static final String USER = "user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +36,12 @@ public class Register extends AppCompatActivity {
         mRegisterBTN = findViewById(R.id.registerBTN);
         mLoginBTN = findViewById(R.id.createAccount);
 
-
-        mAuth = FirebaseAuth.getInstance();
-
-        //if user is already logged in then send them to main activity
-        if(mAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            finish();
-        }
+        fAuth = FirebaseAuth.getInstance();
 
         mRegisterBTN.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
                 String username = mUsername.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
                 String passwordCheck = mPasswordCheck.getText().toString().trim();
@@ -81,20 +63,17 @@ public class Register extends AppCompatActivity {
 
                 if(!password.equalsIgnoreCase(passwordCheck)){
                     mPassword.setError("Passwords must match");
+                    return;
                 }
 
-
-
-
                 //register the user in firebase
-
-                mAuth.createUserWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                fAuth.createUserWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
 
-                            Toast.makeText(Register.this, "User Created. ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, "Account Created. ", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
 
                         }else {
@@ -106,7 +85,7 @@ public class Register extends AppCompatActivity {
         });
 
 
-
+        //Go to login Page
         mLoginBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

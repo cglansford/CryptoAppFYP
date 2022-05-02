@@ -1,20 +1,15 @@
 package com.example.cryptoapp;
 
-import static android.content.ContentValues.TAG;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,9 +17,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -33,33 +26,25 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Source;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
+//Search CryptoCurrencies, add to favourites list
 public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter.OnEditListener{
 
     private EditText searchEdit;
@@ -67,10 +52,8 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
     private ImageButton starBTN;
     private ProgressBar loadingPB;
     public ArrayList<CurrencyRVModel> currencyRVModelArrayList;
-    public ArrayList<String> portfolioListCurrencies;
+    public ArrayList<String> favListCurrencies;
     public CurrencyRVAdapter currencyRVAdapter;
-
-
 
     FirebaseUser mUser;
 
@@ -87,18 +70,17 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
         loadingPB = findViewById(R.id.idPBLoading);
         starBTN = findViewById(R.id.star);
         currencyRVModelArrayList = new ArrayList<>();
-        portfolioListCurrencies = new ArrayList<>();
-        currencyRVAdapter = new CurrencyRVAdapter(currencyRVModelArrayList, portfolioListCurrencies, MainActivity.this, this, this);
+        favListCurrencies = new ArrayList<>();
+        currencyRVAdapter = new CurrencyRVAdapter(currencyRVModelArrayList, favListCurrencies, MainActivity.this, this, this);
         currenciesRV.setLayoutManager(new LinearLayoutManager(this));
         currenciesRV.setAdapter(currencyRVAdapter);
 
+        //TouchHelper for swipe action
         ItemTouchHelper helper = new ItemTouchHelper(callback);
         helper.attachToRecyclerView(currenciesRV);
-        getPortfolio();
+
+        getFavList();
         getCurrencyData();
-
-
-
 
         searchEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -123,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
     }
 
 
-
+    //Swipe Action
     ItemTouchHelper.SimpleCallback callback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -196,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
                 Toast.makeText(MainActivity.this, "Failed to get the data..", Toast.LENGTH_SHORT).show();
             }
         }){
+            //Headers for api call
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<>();
@@ -207,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
         requestQueue.add(jsonObjectRequest);
     }
 
-    //Button action in recycler view
+    //Star Button action in recycler view
     @Override
     public void onEditClick(int position) {
 
@@ -215,12 +198,10 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("users").document(mUser.getUid()).collection("crypto").document("favlist");
 
-
-
             docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-
+                    //If existing favlist exists
                     docRef.update("cryptos", FieldValue.arrayUnion(favTemp))
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -229,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
+                                //If no list exists, create one
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     docRef.set(favTemp);
@@ -245,18 +227,14 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
 
                                                 }
                                             });
-
                                 }
                             });
-
                 }
             });
-
-
     }
 
-    //Get portfolio info from Firebase
-    public void getPortfolio(){
+    //Get favlist info from Firebase
+    public void getFavList(){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("users").document(mUser.getUid()).collection("crypto").document("favlist");
@@ -273,9 +251,8 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
                                     JSONArray json = new JSONArray(((List<?>) documentSnapshot.get("cryptos")).toArray());
                                     for (int i = 0; i < json.length(); i++) {
                                         String name = json.getJSONObject(i).getString("name");
-                                        portfolioListCurrencies.add(name);
+                                        favListCurrencies.add(name);
                                         currencyRVAdapter.notifyDataSetChanged();
-
                                     }
                                 }
                             } catch (JSONException e) {
@@ -283,16 +260,12 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
                             }
                         }
                     }
-
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                     }
                 });
-
-
     }
 
     //Loads option menu
@@ -313,8 +286,6 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
         if (id==R.id.news){
             Intent intent = new Intent(this, News.class);
             startActivity(intent);
-
-
         }
 
         else if(id==R.id.portfolio){
@@ -335,11 +306,9 @@ public class MainActivity extends AppCompatActivity implements CurrencyRVAdapter
             startActivity(intent);
         }
         else if(id ==R.id.logout){
-
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(), Login.class));
             finish();
-
         }
 
         return super.onOptionsItemSelected(item);
